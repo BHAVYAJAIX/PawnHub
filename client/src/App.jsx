@@ -8,6 +8,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import theme from "./utils/Theme";
 import Play from "./components/Play/Play";
 import Gameboard from "./components/Play/Gameboard";
+import Chessboard from "./components/Play/Chessboard"
 export default function App() {
   return (
     <>
@@ -20,6 +21,7 @@ export default function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/play" element={<Play />} />
+              <Route path="/gameboard" element={<Chessboard />} />
               <Route path="/play/:id" element={<Gameboard />} />
               {/* <Route path="/about" element={<About />} /> */}
             </Routes>
