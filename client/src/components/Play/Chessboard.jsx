@@ -38,6 +38,17 @@ export default function Chessboard() {
         'bb': bishopb,
         'bw': bishopw,
     };
+    const handleMove = (fromPosition, toPosition) => {
+        setBoard(prevBoard => {
+            const newBoard = [...prevBoard];
+            const [fromRow, fromCol] = fromPosition;
+            const [toRow, toCol] = toPosition;
+            const piece = newBoard[fromRow][fromCol];
+            newBoard[fromRow][fromCol] = "";
+            newBoard[toRow][toCol] = piece;
+            return newBoard;
+        });
+    };
     return (
         <div className="cont">
             <div className="chessboard">
@@ -47,7 +58,7 @@ export default function Chessboard() {
                             const pieceImage = pieceImages[item];
                             const isDark = (i + j) % 2 === 0;
                             return (
-                                <Chessbox key={j} piece={pieceImage} color={isDark ? "light" : "dark"} />
+                                <Chessbox key={j} piece={pieceImage} color={isDark ? "light" : "dark"} position={[i, j]} handleMove={handleMove}/>
                             );
                         })}
                     </div>
