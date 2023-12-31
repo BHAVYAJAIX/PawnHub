@@ -1,6 +1,7 @@
 import Chessbox from "./Chessbox";
 import "./chessboard.css";
 import { useState } from "react";
+import PromotionDialog from "./PromotionDialog";
 import pawnb from "./assets/pawnb.png"
 import pawnw from "./assets/pawnw.png"
 import rookw from "./assets/rookw.png"
@@ -24,6 +25,7 @@ export default function Chessboard() {
         ["pw", "pw", "pw", "pw", "pw", "pw", "pw", "pw"],
         ["rw", "nw", "bw", "qw", "kw", "bw", "nw", "rw"]
     ]);
+    const [promotion, setPromotion] = useState(null);
     const pieceImages = {
         'pb': pawnb,
         'pw': pawnw,
@@ -46,8 +48,22 @@ export default function Chessboard() {
             const piece = newBoard[fromRow][fromCol];
             newBoard[fromRow][fromCol] = "";
             newBoard[toRow][toCol] = piece;
+            if (piece === 'pw' && toRow === 0) {
+                setPromotion({position: toPosition});
+            } else if (piece === 'pb' && toRow === 7) {
+                setPromotion({position: toPosition});
+            }
             return newBoard;
         });
+    };
+    const handlePromotion = (piece) => {
+        setBoard(prevBoard => {
+            const newBoard = [...prevBoard];
+            const [row, col] = promotion.position;
+            newBoard[row][col] = piece;
+            return newBoard;
+        });
+        setPromotion(null);
     };
     return (
         <div className="cont">
@@ -64,6 +80,12 @@ export default function Chessboard() {
                     </div>
                 ))}
             </div>
+            {promotion && (
+                <PromotionDialog 
+                    position={promotion.position} 
+                    onPromote={handlePromotion} 
+                />
+            )}
         </div>
     );
 }
